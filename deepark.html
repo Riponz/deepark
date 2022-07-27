@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CC9 PRACTICAL</title>
+</head>
+<style>
+    footer{
+        text-align: center;
+    }
+</style>
+<body>
+
+    <center><font size="8" color="red"><b>Cheating korte lojja korena??? Chiih!</b></font></center>
+    <h1>Dfs</h1>
+    <pre>
+        #include&lt;stdio.h&gt;
+    void dfstraversal(int);
+    int arg[20][20], visited[20],n;
+    int f=0;
+    int main()
+    {
+    int x,y;
+    printf("\nEnter number of vertices: ");
+    scanf("%d", &n);
+                         //read the adjacency matrix
+    printf("\nEnter the adjacency matrix of the graph:\n");
+    for(x=0; x&lt;n; x++)
+    {
+    for(y=0; y&lt;n; y++)
+    scanf("%d",&arg[x][y]);
+    }
+                         //visited is initialized to zero
+    for(x=0; x&lt;n; x++)
+    visited[x]=0;  //visited is initialized to 0
+    printf("\nThe required DFS traversal for the above graph is:\n");
+    f=1;
+    dfstraversal(0); 
+       //call the function dfstraversal()for finding the dfs traversal
+    return 0;
+    }
+    
+    void dfstraversal(int x) 
+                                                 //function defination
+    {
+    int y;
+    if(f==1)
+    {
+    printf("%d",x);
+    f=0;
+    }
+    else
+    {
+    printf("-%d",x);
+    }
+    visited[x]=1;
+    for(y=0; y&lt;n; y++)
+    {
+     if(!visited[y] && d[x][y]==1)
+                                                 //traversing the graph
+    dfstraversal(y); 
+             //call the function dfstraversal() recursively
+    }
+    }
+    
+    </pre>
+    <h1>Bfs</h1>
+    <pre>
+        #include&lt;stdio.h&gt;
+    int arr[20][20],queue[20],visited[20],n,f=-1,r=-1,flag=1;
+    
+    void bfs_traversal(int v)
+    {
+    int x;
+    for (x=0;x&lt;n;x++)                              
+                         // check all the vertices in the graph
+     {
+    if(arr[v][x] != 0 && visited[x] == 0) // adjacent to v and not visited
+      {
+      r=r+1;
+      queue[r]=x;                       // insert them into queue
+    visited[x]=1;          // mark the vertex visited
+    if(flag == 1)
+    {
+    printf("%d",x);
+    flag=0;
+     }
+    else
+     {
+    printf("--&gt;%d",x);
+     }
+     }
+     }
+    f=f+1;                             // remove the vertex at front of the queue
+    if(f&lt;=r)                           // as long as there are elements in the queue
+    bfs_traversal(queue[f]);           
+                                       
+            // peform bfs again on the vertex at front of the queue
+    }
+    
+    int main()
+    {
+    int v,x,y;
+    printf("\n Enter the number of vertices: ");
+    scanf("%d",&n);
+    for (x=0;x&lt;n;x++)   
+                    // mark all the vertices as not visited
+    {
+    visited[x]=0;
+    }
+    printf("\n Enter graph data in matrix form:\n");
+    for (x=0;x&lt;n;x++)
+    {
+    for (y=0;y&lt;n;y++)
+    {
+    scanf("%d",&arr[x][y]);
+     }
+     }	
+    printf("\n Enter the starting vertex: ");
+    scanf("%d",&v);
+     f=r=0;
+     queue [r]=v;
+    printf("\n The BFS traversal of the above graph is:\n");
+    visited[v]=1;                                     
+                                               // mark the starting vertex as visited
+    printf("%d--&gt;",v);
+    bfs_traversal(v);
+    if(r != n-1)
+    {
+    printf("\n Sorry ,BFS is not possible……");
+    }
+    return 0;
+    }
+    
+    </pre>
+    <h1>Prims</h1>
+    <pre>
+        #include&lt;stdio.h&gt;
+    int cost[10][10],visited[10]={0};
+    int n,ne=1,a=0,b=0,u=0,v=0,x,y,min=0,mincost=0;
+    int main()
+    {
+    printf("Enter number of vertices in the Graph: ");
+    scanf("%d",&n);
+    printf("Enter the matrix elements with weights: \n");
+    for(x=1;x&lt;=n;x++)
+    {
+    for(y=1;y&lt;=n;y++)
+    {
+    scanf("%d",&cost[x][y]);
+    if(cost[x][y]==0)
+    {
+    cost[x][y]=999;
+    }
+    }
+    }
+    printf("\nThe given cost matrix is: \n");
+    
+    for(x=1;x&lt;=n;x++)
+    {
+     for(y=1;y&lt;=n;y++)
+     {
+     printf("%d ",cost[x][y]);
+    }
+    printf("\n");
+    }
+    printf("\nEnter the starting vertex:");
+    scanf("%d",&x);
+    visited[x]=1;
+    while(ne&lt;n)
+    {
+    for(x=1,min=999;x&lt;=n;x++)
+    {
+    for(y=1;y&lt;=n;y++)
+    {
+    if(cost[x][y] &lt;= min)
+    {
+    if(visited[x]!=0)
+    {
+    min=cost[x][y];
+    a=u=x;
+    b=v=y;
+    }
+    }
+    }
+    }
+    if(visited[u]==0||visited[v]==0)
+    {
+    printf("Edge %d: (%d to %d) Cost: %d \n",ne++,a,b,min);
+    mincost = mincost + min;
+    visited[b]=1;
+    }
+    cost[a][b]=cost[b][a]=999;
+    }
+    printf("\nMinimum Cost: %d \n",mincost);
+    return 0;
+    }
+    
+    </pre>
+    <h1>Kruskal</h1>
+    <pre>
+        #include&lt;stdio.h&gt;
+    #include&lt;stdlib.h&gt;
+    int x,y,k,a,b,u,v,n,ne=1;
+    int min,mincost=0,c[12][12],parent[12];
+    int find_fn(int);
+    int uni(int,int);
+    int main()
+    {
+    printf("\n\tImplementation of Kruskal's algorithm:\n");
+    printf("\nEnter the no. of vertices:");
+    scanf("%d",&n);
+    printf("\nEnter the cost adjacency matrix: \n");
+    for(x=1;x&lt;=n;x++)
+    {
+     for(y=1;y&lt;=n;y++)
+     {
+     scanf("%d",&c[x][y]);
+     if(c[x][y]==0)
+     c[x][y]=999;
+     }
+    }
+    printf("\n\t The given cost matrix is: \n");
+    for(x=1;x&lt;=n;x++)
+    {
+     for(y=1;y&lt;=n;y++)
+     {
+    printf("%d ",c[x][y]);
+    }
+    printf("\n");
+    }
+    printf("\nThe edges of Minimum Cost Spanning Tree are:\n");
+    while(ne&lt;n)
+    {
+     for(x=1,min=999;x&lt;=n;x++)
+     {
+     for(y=1;y&lt;=n;y++)
+     {
+     if(c[x][y]&lt;min)
+     {
+     min=c[x][y];
+     a=u=x;
+     b=v=y;
+     }
+     }
+     }
+     u=find_fn(u);
+     v=find_fn(v);
+     if(uni(u,v))
+     {
+    printf("\n%d edge (%d,%d) =%d\n",ne++,a,b,min);
+    mincost +=min;
+     }
+     c[a][b]=c[b][a]=999;
+    }
+    printf("\n\tMinimum cost = %d\n",mincost);
+    }
+    int find_fn(int x)
+    {
+    while(parent[x])
+     x=parent[x];
+    return x;
+    }
+    int uni(int x,int y)
+    {
+    if(x!=y)
+    {
+     parent[y]=x;
+     return 1;
+    }
+    return 0;
+    }
+    
+    </pre>
+    <h1>Floyd Warshall</h1>
+    <pre>
+        #include &lt;stdio.h&gt;
+    #include &lt;stdlib.h&gt;
+    #define size 10                    //macro function
+    int main()
+    {
+    int arr[size][size],x,y,n;                   //variable declaration
+    void floyd(int arr[size][size], int);
+    printf("Enter the no. of vertex: ");
+    scanf("%d",&n);                          //user input
+    printf("\n Give the initial weighted graph in weight matrix form:\n");
+    for(x=0;x&lt;n;x++)
+    {
+    for(y=0;y&lt;n;y++)
+     {
+    printf("\nEnter the value of arr[%d][%d]: ",x+1,y+1);
+    scanf(" %d",&arr[x][y]);              //array elements entered
+      }
+     }
+    printf("\nThe inputted weighted matrix is:\n");
+    for(x=0;x&lt;n;x++)
+        {
+    for(y=0;y&lt;n;y++)
+    {
+    if(arr[x][y]==999)
+    printf("inf");
+    else
+    printf(" %d",arr[x][y]);                   //display the array
+     }
+    printf("\n");
+    }
+    floyd(arr,n);             //call function floyd(arr,n)
+      //function for finding shortest path using Floyd algorithm
+    printf("\n The final matrix where we can find the shortest distance using Floyd’s algorithm:\n");
+    for(x=0;x&lt;n;x++)
+    {
+    for(y=0;y&lt;n;y++)
+     {
+    printf(" %d",arr[x][y]);
+      }
+    printf("\n");
+     }
+    return 0;
+    }
+    
+    void floyd(int arr[size][size],int n)            //Floyd function
+    {
+    int x,y,k;
+    for(k=0;k&lt;n;k++)
+    {
+    for(x=0;x&lt;n;x++)
+    {
+    for(y=0;y&lt;n;y++)
+    {
+    if(arr[x][y]&gt;(arr[x][k]+arr[k][y]))                    //Floyd calculation
+    arr[x][y]=arr[x][k]+arr[k][y];
+      }
+     }
+    }
+    }
+    
+    </pre>
+    <h1>Warshall</h1>
+    <pre>
+        #include &lt;stdio.h&gt;
+    #include &lt;stdlib.h&gt;
+    
+    int arr[20][20],n;                    //global variable declaration
+    void display (int n, int arr[20][20]);                 
+                                                           //function prototype
+    int main()
+    {
+        int x,y,k;
+        printf("Enter the no. of vertices: ");
+        scanf(" %d",&n);                                    //user input 
+        printf("Enter the matrix:\n");
+        for(x=0;x&lt;n;x++)
+        {
+    
+            for(y=0;y&lt;n;y++)
+            {
+                scanf(" %d",&arr[x][y]);                     
+                                            //adjacency matrix input from user
+            }
+        }
+        printf("\nThe matrix is:\n");
+        display(n,arr);
+                                         //Apply Warshall logic for shortest path
+        for(k=0;k&lt;n;k++)
+        {
+            for(x=0;x&lt;n;x++)
+            {
+                for(y=0;y&lt;n;y++) 
+                {
+                    arr[x][y]= arr[x][y]|| (arr[x][k] && arr[k][y]); 
+                                                        //finding the shortest path
+                }
+            }
+        }
+    
+        printf("\nMinimum distance between every pair vertices by Warshall Algorithm:\n");
+        display (n,arr);                  //call the method display()
+        return 0;
+    }
+    
+    void display(int n, int arr[20][20])
+    {
+        int x,y;
+        for(x=0;x&lt;n;x++)
+        {
+    
+            for(y=0;y&lt;n;y++)
+            {
+                printf(" %d",arr[x][y]);                       
+            }
+            printf("\n");
+        }
+    }
+    
+    </pre>
+    <h1>Dijkstra</h1>
+    <pre>
+        #include&lt;stdio.h&gt;
+    #define inf 999                        //macro function
+    int path[10][10];                      //global variable declaration
+    void dijkstra(int n,int s,int cost[10][10],int distance[10])             
+                          //function for implementing dijkstra's algo
+    {
+             int x,y,u,min,w,set[10],c;
+        for(x=1;x&lt;=n;x++)                            
+                                                     //loop for initialization
+        {
+            set[x]=0;              //assign initial set matrix with 0
+            distance[x]=cost[s][x];
+            path[x][1]=s;
+            path[x][n]=x;
+        }
+        c=2;
+        while(c&lt;=n)                          //loop for iteration
+        {
+            min=99;
+            for(w=1;w&lt;=n;w++)              
+                                    //loop for setting values of set matrix
+              {
+                  if(distance[w]&lt;min && !set[w])
+                  {
+                      min=distance[w];
+                      u=w;
+                  }
+              }
+                    set[u]=1;
+    
+    
+                for(w=1;w&lt;=n;w++)                
+                           //loop for setting values of distance matrix
+          {
+               if(distance[u]+cost[u][w]&lt; distance[w] && !set[w])
+             {
+              distance[w]=distance[u]+cost[u][w];
+               x=2;
+              for(y=2;y&lt;=n;y++)
+              {
+                            if(path[u][y]!=0 && x&lt;n)
+    {						             
+    path[w][x]=path[u][y];
+                       x++;
+                }
+               }
+            }
+           }
+            c++;
+        }
+              }
+                
+    int main()
+    {
+        int n,s,x,y,cost[10][10],distance[10];               
+                                                       //variable declaration
+        printf("\nEnter the no. of vertices:\n");
+        scanf("%d",&n);                                      //user input 
+        printf("\nEnter the cost matrix:\n");
+    
+    
+    
+    
+        for(x=1;x&lt;=n;x++)
+        {
+          for(y=1;y&lt;=n;y++)
+               {
+             scanf("%d",&cost[x][y]);           
+                                  //Input of the initial cost matrix   
+            if(cost[x][y]==0)             
+                                           //Checking for the initial value
+            cost[x][y]=inf;                           
+           }
+        }
+        printf("\nEnter the source vertex:\n");
+        scanf("%d",&s);                               //user input 
+        dijkstra(n,s,cost,distance);        
+                                      //call method dijkstra with arguments                            
+        printf("\nShortest Path between the vertices by dijkstra's  Algorithm: \n");
+        for(x=1;x&lt;=n;x++)                                                      
+        {
+            if(x!=s)                                                               //checking for printing the shortest path between the vertices
+              {
+               printf("For: s%d -&gt; s%d\n",s,x);
+               printf("Shortest Path: ");
+               for(y=1;y&lt;=n;y++)
+               {
+                 if(path[x][y]!=0)
+                  {	
+                     if(y!=n)
+                     printf("s%d --&gt; ",path[x][y]);      
+    // the vertices and shortest path between them by dijkstra's algo
+                          else
+                     printf("s%d ",path[x][y]);
+                  }
+            }
+            printf("\n");
+            printf("Cost = %d\n",distance[x]);      
+    // cost for the shortest path between the vertices by dijkstra's algo
+            printf("\n");
+        }
+          }
+    return 0;
+         }
+    
+    </pre>
+                <footer>
+                    <centre>Made with 💖 by Riponz.</centre>
+                </footer>
+            </body>
+</html>
